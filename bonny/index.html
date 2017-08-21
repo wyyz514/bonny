@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/bonny.css"/>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto|Montserrat:900"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    </head>
+    <body>
+        <div class="bonny-item no-up one">
+            <div class="bonny-container">
+                <div class="slide">
+                    <div class="slide-title has-animation my-fade-left fade-left animated">Beatiful belgium</div>
+                    <div class="slide-blurb has-animation delayed fade-up">
+                        Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. 
+                        Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
+                        Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. 
+                        Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bonny-item two">
+            <div class="bonny-container">
+                <div class="slide">
+                    <div class="slide-title has-animation fade-up">Natural norway</div>
+                    <div class="slide-blurb has-animation delayed fade-left">
+                        Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. 
+                        Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bonny-item three">
+            <div class="bonny-container">
+                <div class="slide">
+                    <div class="slide-title has-animation fade-down">Interesting iceland</div>
+                    <div class="slide-blurb has-animation delayed fade-right">
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bonny-item four no-down">
+            <div class="bonny-container">
+                <div class="slide">
+                    <div class="slide-title has-animation fade-right">Fancy finland</div>
+                    <div class="slide-blurb has-animation delayed fade-down">
+                        Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
+                        Duis leo. Sed fringilla mauris sit amet nibh. 
+                        Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/bonny-transitions.js"></script>
+        <script src="/js/bonny-indicators.js"></script>
+        <script src="/js/bonny-utils.js"></script>
+        <script src="/js/bonny.js"></script>
+
+        <script>
+            var root = BonnyUtils.set('root', new BonnyContainer(document.body, null, "1"));
+            var mainBonnys = BonnyUtils.get('root').bonnyItems.slice(0);
+            BonnyIndicators.updateConfig('count', mainBonnys.length);
+
+            var steppers = BonnyUtils.step(root);
+            
+            BonnyTransitions.register('my-fade-left', function () {
+                this.classList.add('bounceInLeft');
+            }, function () {
+                this.classList.remove('bounceInLeft');
+            });
+            
+            document.addEventListener('mousewheel', function(e) {
+                !window.pause && BonnyUtils.execute(e.deltaY, steppers);
+            });
+
+            BonnyIndicators.render();
+        </script>
+    </body>
+</html>

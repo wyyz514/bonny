@@ -1,0 +1,132 @@
+.bonny-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.8s cubic-bezier(.98, .01, 0, .8);
+    background-color: #fff;
+}
+
+.bonny-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.bonny-indicators {
+    position: fixed;
+    top: 50%;
+    left: 85%;
+    width: 10em;
+    z-index: 100;
+}
+
+.bonny-indicator {
+    width: 100%;
+    height: 1em;
+    position: relative;
+}
+
+.bonny-indicator:after
+{
+    content: "";
+    height: 3px;
+    width: 6px;
+    position: absolute;
+    left: calc((100% - 10px) / 2);
+    background-color: royalblue;
+    transition: all 0.3s 0.5s ease-in-out;
+}
+
+.bonny-indicator#bi-active:after
+{
+    transform: scaleX(3);
+}
+
+.slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 75%;
+    margin: auto;
+}
+
+.slide-title, .slide-blurb {
+    transition-property: all;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(.98, .01, 0, .8);
+}
+
+.slide-title {
+    height: 3em;
+    width: 100%;
+    font-size: 64px;
+    letter-spacing: 2px;
+    text-align: center;
+    word-wrap: break-word;
+    font-family: Montserrat;
+    color: royalblue;
+    position: relative;
+}
+
+.slide-blurb {
+    font-size: 20px;
+    font-family: "Roboto";
+    line-height: 32px;
+    color: rgba(10, 10, 10, 0.6);
+    width: 40%;
+    border-left: 5px solid royalblue;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.delayed {
+    transition-delay: 1s;
+}
+
+.fade {
+    opacity: 0;
+}
+
+.fade-up, .fade-down, .fade-left, .fade-right{
+    opacity: 0;
+}
+
+.fade-up {
+    top: 30px;
+}
+
+.fade-up.active {
+    top: 0;
+} 
+
+.fade-down {
+    top: -30px;
+}
+
+.fade-down.active {
+    top: 0;
+}
+
+.fade-left {
+    left: -30px;
+}
+
+.fade-left.active {
+    left: 0;
+}
+
+.fade-right {
+    left: 30px;
+}
+
+.fade-right.active {
+    left: 0;
+}
+
+.fade-up.active, .fade-down.active, .fade-left.active, .fade-right.active {
+    opacity: 1;
+}
