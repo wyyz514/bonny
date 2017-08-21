@@ -1,1 +1,1 @@
-web: node bonny/index.js
+web: node ./bonny/index.js
