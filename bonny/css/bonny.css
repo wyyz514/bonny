@@ -4,7 +4,7 @@
     left: 0;
     height: 100%;
     width: 100%;
-    transition: all 0.8s cubic-bezier(.98, .01, 0, .8);
+    transition: all 0.2s cubic-bezier(.98, .01, 0, .8);
     background-color: #fff;
 }
 

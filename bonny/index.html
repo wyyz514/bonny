@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="bonny-item no-up one">
-            <div class="bonny-container">
+            <div class="bonny-container" bonny-animate>
                 <div class="slide">
                     <div class="slide-title has-animation my-fade-left fade-left animated">Beatiful belgium</div>
                     <div class="slide-blurb has-animation delayed fade-up">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="bonny-item two">
-            <div class="bonny-container">
+            <div class="bonny-container" bonny-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-up">Natural norway</div>
                     <div class="slide-blurb has-animation delayed fade-left">
@@ -30,9 +30,10 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         <div class="bonny-item three">
-            <div class="bonny-container">
+            <div class="bonny-container" bonny-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-down">Interesting iceland</div>
                     <div class="slide-blurb has-animation delayed fade-right">
@@ -43,7 +44,7 @@
             </div>
         </div>
         <div class="bonny-item four no-down">
-            <div class="bonny-container">
+            <div class="bonny-container" bonny-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-right">Fancy finland</div>
                     <div class="slide-blurb has-animation delayed fade-down">
@@ -65,7 +66,7 @@
             BonnyIndicators.updateConfig('count', mainBonnys.length);
 
             var steppers = BonnyUtils.step(root);
-            
+            window.pause = false;
             BonnyTransitions.register('my-fade-left', function () {
                 this.classList.add('bounceInLeft');
             }, function () {
@@ -73,7 +74,7 @@
             });
             
             document.addEventListener('mousewheel', function(e) {
-                !window.pause && BonnyUtils.execute(e.deltaY, steppers);
+               !window.pause && BonnyUtils.execute(e.deltaY, steppers);
             });
 
             BonnyIndicators.render();

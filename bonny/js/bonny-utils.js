@@ -100,7 +100,7 @@ var BonnyUtils = (function(){
             var scrolls = [];
 
             return function (scroll) {
-                
+
                 if (scrolls.length < 3 ) {
                     scrolls.push(scroll);
                     return {
@@ -121,7 +121,7 @@ var BonnyUtils = (function(){
         },
 
         changeBonny: function changeBonny(direction) {
-            
+
             var currentPage = function() {
                 return this.get("currentBonny") % this.get('root').children;
             }.bind(this);
@@ -151,7 +151,7 @@ var BonnyUtils = (function(){
             else {
                 //do nothing for out of bounds events
             }
-            
+
             return current;
         },
 
@@ -274,8 +274,16 @@ var BonnyUtils = (function(){
         },
         execute: function execute(scroll, directions) {
             var self = this;
-            
+
             this.collectMouseScrolls(scroll).then(function(direction){
+                var currentBonny = self.get('root').bonnyItems[self.get('currentBonny')];
+                console.log(currentBonny);
+                BonnyTransitions.trigger(currentBonny, direction, directions);
+                
+                
+                /*
+                var currentBonny = self.get('root').children[self.get('currentBonny')];
+
                 var temp = null;
                 if(direction == "up") {
                     temp = directions.stepBack();
@@ -302,6 +310,31 @@ var BonnyUtils = (function(){
                         self.changeBonny(direction);
                     }, 1500);
                 }
+                
+
+                if(direction == "up") {
+                    temp = directions.stepBack();
+                    console.log(temp);
+                    if(temp.name != '1') {    
+                        var selector = self.getSelector(false, temp);
+                        console.log(selector);
+                        BonnyTransitions.trigger(document.querySelector(selector), direction);
+                    }
+                }
+                else if(direction == "down") {
+                    temp = directions.stepForward();
+                    console.log(temp);
+                    if(temp.name != '1') {
+                        var selector = self.getSelector(false, temp);
+                        console.log(selector);
+
+                        BonnyTransitions.trigger(document.querySelector(selector), direction);    
+                    }
+                }
+                else {
+                    //
+                }
+                */
             });
         }
     }
