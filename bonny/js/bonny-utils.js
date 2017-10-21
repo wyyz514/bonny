@@ -17,7 +17,8 @@ var BonnyUtils = (function(){
             if (typeof prop == "string") {
                 return globals[prop];
             }
-
+            //if an array of props passed,
+            //populate an object to be returned
             prop.map(function(p){
                 if (globals[p]) {
                     propCopies[p] = globals[p];
@@ -36,7 +37,8 @@ var BonnyUtils = (function(){
                 globals[prop] = value;
                 return value;
             }
-
+            //if an object is passed, 
+            //override the previous properties
             if (typeof prop == "object") {
                 var keys = Object.keys(prop);
                 keys.map(function(keyProp) {
@@ -99,19 +101,24 @@ var BonnyUtils = (function(){
             //each time the nested function is called
             var scrolls = [];
 
-            return function (scroll) {
+            return function _collectMouseScrolls(scroll) {
 
                 if (scrolls.length < 3 ) {
                     scrolls.push(scroll);
                     return {
+                        //override normal promise behavior
+                        //if promise not returned when this _collectMouseScrolls is called
                         then: function(cb) {
                         }
                     };
                 }
                 else {
+                    //use sum of the array to determine which direction
+                    //to go
                     var sum = scrolls.reduce(function(prev, next) {
                         return prev + next;
                     }, 0);
+                    //empty array once we've collected the bottleneck scroll value
                     scrolls = [];
                     return new Promise(function(resolve, reject){
                         resolve((sum < 0 ? "up" : "down"));
@@ -121,7 +128,7 @@ var BonnyUtils = (function(){
         },
 
         changeBonny: function changeBonny(direction) {
-
+            //function to calculate what page we on
             var currentPage = function() {
                 return this.get("currentBonny") % this.get('root').children;
             }.bind(this);
@@ -136,8 +143,11 @@ var BonnyUtils = (function(){
 
                 this.set('currentBonny', this.get('currentBonny') + 1);
                 current = this.get('root').bonnyItems[currentPage()];
+                //get current page element
                 el = document.querySelector(this.getSelector(false, current));
+                //transition the previous page
                 el.previousElementSibling.classList.add('fade');
+                //shift indicator
                 BonnyIndicators.next();
             }
             //going from last to first
@@ -165,6 +175,11 @@ var BonnyUtils = (function(){
                         currentNode = node;
                     }
                     var bound = currentNode.children - 1;
+                    //if the current child index of the node we are on is strictly less
+                    //than the number of children - 1, we can get the next child. We can't 
+                    //get the next child if we are on the last child index because there is no
+                    //next child hence the step out in the else condition to return to the parent
+                    //when the index increments to the number of children
                     if(this.currentChild(currentNode) < bound && bound != -1) {
                         currentNode = currentNode.type === "container" ? currentNode.nextItem() : currentNode.nextContainer();
                     }
@@ -186,10 +201,15 @@ var BonnyUtils = (function(){
                     }
 
                     var bound = currentNode.children - 1;
+                    //we need the current child index here to be strictly greater than 0
+                    //that way if we keep walking back, the last child we walk is the one
+                    //with the 0th index or the first child
+                    //if we are on the first child, and we attempt to step back, we need to step out to the parent since
+                    //no more children exist prior to the first (else condition)
                     if(this.currentChild(currentNode) > 0 && bound != -1) {
                         currentNode = currentNode.type === "container" ? currentNode.prevItem() : currentNode.prevContainer();
                     }
-
+                    //can't step back from the root
                     else if(currentNode.name == "1") {
                         return currentNode;
                     }
@@ -207,21 +227,28 @@ var BonnyUtils = (function(){
             //remove last digit and preceding dot to get parent address
 
             var parentName = name.slice(0, name.length - 2);
+            //walk to the parent of the current node from root since this is
+            //where we will be stepping out to
             var parent = this.walk(parentName, globals.root);
-            //last condition is to prevent increment on childless nodes so the current remains -1
+            //if the parent is currently on its last child and we pass a 1 
+            //(to indicate we want to overshoot the bound by 1, so when we step back, we arrive on the last child)
+            //and the parent has kids, then increment the currrentChild index of the parent
             if(this.currentChild(parent) == parent.children - 1 && arguments[1] == 1 && parent.children != 0) {
                 this.nextChild(parent);
             }
-
+            //if we're stepping back and we are on the parent's first child, then decrement the currentChild index
+            //to -1 so when we step forward, we will be on the first child
             if(this.currentChild(parent) == 0 && arguments[1] == -1) {
                 this.previousChild(parent);
             }
             // else
             // (parent.currentItem ? parent.children : parent.children);
+            //return the parent we stepped out to
             return parent;
         },
 
         currentChild: function currentChild(bonny) { 
+            //return index of the child we are on given the parent ()
             if(bonny.type == 'item') {
                 return bonny.currentContainer;
             }
@@ -279,62 +306,6 @@ var BonnyUtils = (function(){
                 var currentBonny = self.get('root').bonnyItems[self.get('currentBonny')];
                 console.log(currentBonny);
                 BonnyTransitions.trigger(currentBonny, direction, directions);
-                
-                
-                /*
-                var currentBonny = self.get('root').children[self.get('currentBonny')];
-
-                var temp = null;
-                if(direction == "up") {
-                    temp = directions.stepBack();
-                    if(temp.name != '1') {    
-                        var selector = self.getSelector(false, temp);
-                        BonnyTransitions.trigger(document.querySelector(selector), direction);
-                    }
-                }
-                else if(direction == "down") {
-                    temp = directions.stepForward();
-                    if(temp.name != '1') {
-                        var selector = self.getSelector(false, temp);
-                        BonnyTransitions.trigger(document.querySelector(selector), direction);    
-                    }
-                }
-                else {
-                    //
-                }
-
-                if(temp.name == '1') {
-                    window.pause = true;
-                    setTimeout(function(){
-                        window.pause = false;
-                        self.changeBonny(direction);
-                    }, 1500);
-                }
-                
-
-                if(direction == "up") {
-                    temp = directions.stepBack();
-                    console.log(temp);
-                    if(temp.name != '1') {    
-                        var selector = self.getSelector(false, temp);
-                        console.log(selector);
-                        BonnyTransitions.trigger(document.querySelector(selector), direction);
-                    }
-                }
-                else if(direction == "down") {
-                    temp = directions.stepForward();
-                    console.log(temp);
-                    if(temp.name != '1') {
-                        var selector = self.getSelector(false, temp);
-                        console.log(selector);
-
-                        BonnyTransitions.trigger(document.querySelector(selector), direction);    
-                    }
-                }
-                else {
-                    //
-                }
-                */
             });
         }
     }

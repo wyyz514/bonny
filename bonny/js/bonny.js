@@ -32,7 +32,7 @@ BonnyContainer.prototype.extractItems = function (isBody) {
     this.bonnyItems = itemsEl.map(function (itemEl) {
         //reverse z index
         itemEl.style.zIndex = itemsEl.length - itemCounter;
-        return new BonnyItem(itemEl, this.name, itemCounter ++);
+        return new BonnyItem(itemEl, this.name, itemCounter ++); //continue recursive tree building since extractContainers is gonna be called for each extracted item
     }.bind(this));
     this.children = this.bonnyItems.length;
     return this.bonnyItems;
@@ -42,6 +42,8 @@ BonnyContainer.prototype.nextItem = function (start) {
     if(start >= 0) {
         return this.bonnyItems[start];
     } else {
+        //we remain on the length of the kids if we have already visited all the kids. This way, when
+        //we walk back, the currentItem will be length - 1 which is the last kid
         this.currentItem = this.currentItem < this.bonnyItems.length  ? this.currentItem + 1 : this.bonnyItems.length;
         //overflow condition
     }
@@ -52,9 +54,12 @@ BonnyContainer.prototype.prevItem = function (start) {
     if(start >= 0) {
         return this.bonnyItems[start];
     } else {
+        //we stay at -1 since this is representative of not being on any child currently
+        //so when we step forward, currentItem = 0 and this is the first child
         this.currentItem = this.currentItem <= -1 ? this.currentItem : this.currentItem - 1;
         //underflow condition
     }
+    //not sure why "this" is being returned 
     return this.bonnyItems[this.currentItem] ? this.bonnyItems[this.currentItem] : this;
 }
 
@@ -83,6 +88,8 @@ BonnyItem.prototype.nextContainer = function (start) {
     if(start >= 0) {
         return this.bonnyContainers[start];
     } else {
+        //we remain on the length of the kids if we have already visited all the kids. This way, when
+        //we walk back, the currentItem will be length - 1 which is the last kid
         this.currentContainer = this.currentContainer < this.bonnyContainers.length  ? this.currentContainer + 1 : this.bonnyContainers.length;
         //overflow condition
     }
@@ -93,6 +100,8 @@ BonnyItem.prototype.prevContainer = function (start) {
     if(start >= 0) {
         return this.bonnyContainers[start];
     } else {
+        //we stay at -1 since this is representative of not being on any child currently
+        //so when we step forward, currentItem = 0 and this is the first child
         this.currentContainer = this.currentContainer <= -1 ? this.currentContainer : this.currentContainer - 1;
         //underflow condition
     }
