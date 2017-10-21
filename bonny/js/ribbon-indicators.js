@@ -1,4 +1,4 @@
-var BonnyIndicators = (function(){
+var RibbonIndicators = (function(){
     
     var config = {
         'style': 'bars',
@@ -6,19 +6,19 @@ var BonnyIndicators = (function(){
     }
     
     function previousIndicator() {
-        var activeIndicator = document.getElementById('bi-active');
+        var activeIndicator = document.getElementById('ri-active');
         activeIndicator.setAttribute('id', '');
         var activeHeir = activeIndicator.previousElementSibling;
-        activeHeir.setAttribute('id', 'bi-active');
+        activeHeir.setAttribute('id', 'ri-active');
         activeHeir = null;
         activeIndicator = null;
     }
     
     function nextIndicator() {
-        var activeIndicator = document.getElementById('bi-active');
+        var activeIndicator = document.getElementById('ri-active');
         activeIndicator.setAttribute('id', '');
         var activeHeir = activeIndicator.nextElementSibling;
-        activeHeir.setAttribute('id', 'bi-active');
+        activeHeir.setAttribute('id', 'ri-active');
         activeHeir = null;
         activeIndicator = null;
     }
@@ -48,16 +48,16 @@ var BonnyIndicators = (function(){
     function render() {
         var counted = 0;
         var container = document.createElement('div');
-        container.classList.add('bonny-indicators');
+        container.classList.add('ribbon-indicators');
         document.body.appendChild(container);
     
         while(counted < config.count) {
             var indicator = document.createElement('div');
-            indicator.classList.add('bonny-indicator');
+            indicator.classList.add('ribbon-indicator');
             indicator.classList.add(config.style);
             
             if(counted == 0) {
-                indicator.setAttribute('id', 'bi-active');
+                indicator.setAttribute('id', 'ri-active');
             }
             container.appendChild(indicator);
             counted += 1;

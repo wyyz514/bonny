@@ -1,8 +1,8 @@
-var BonnyUtils = (function(){
+var RibbonUtils = (function(){
 
     var globals = {
         //bounds are 0 and number of top level items - 1
-        currentBonny: 0,
+        currentRibbon: 0,
         root: null
     };
 
@@ -127,36 +127,36 @@ var BonnyUtils = (function(){
             }
         },
 
-        changeBonny: function changeBonny(direction) {
+        changeRibbon: function changeRibbon(direction) {
             //function to calculate what page we on
             var currentPage = function() {
-                return this.get("currentBonny") % this.get('root').children;
+                return this.get("currentRibbon") % this.get('root').children;
             }.bind(this);
 
-            var bonnySelector = this.getSelector(false, this.get('root').bonnyItems[currentPage()]);
-            var el = document.querySelector(bonnySelector);
+            var ribbonSelector = this.getSelector(false, this.get('root').ribbonItems[currentPage()]);
+            var el = document.querySelector(ribbonSelector);
             var noScrollUp = el.classList.contains('no-up');
             var noScrollDown = el.classList.contains('no-down');
 
             //going from first to last
             if (direction == "down" && !noScrollDown) {
 
-                this.set('currentBonny', this.get('currentBonny') + 1);
-                current = this.get('root').bonnyItems[currentPage()];
+                this.set('currentRibbon', this.get('currentRibbon') + 1);
+                current = this.get('root').ribbonItems[currentPage()];
                 //get current page element
                 el = document.querySelector(this.getSelector(false, current));
                 //transition the previous page
                 el.previousElementSibling.classList.add('fade');
                 //shift indicator
-                BonnyIndicators.next();
+                RibbonIndicators.next();
             }
             //going from last to first
             else if(direction == "up" && !noScrollUp) {
-                this.set('currentBonny', this.get('currentBonny') - 1);
-                current = this.get('root').bonnyItems[currentPage()];
+                this.set('currentRibbon', this.get('currentRibbon') - 1);
+                current = this.get('root').ribbonItems[currentPage()];
                 el = document.querySelector(this.getSelector(false, current));
                 el.classList.remove('fade');
-                BonnyIndicators.previous();
+                RibbonIndicators.previous();
             }
             else {
                 //do nothing for out of bounds events
@@ -247,54 +247,54 @@ var BonnyUtils = (function(){
             return parent;
         },
 
-        currentChild: function currentChild(bonny) { 
+        currentChild: function currentChild(ribbon) { 
             //return index of the child we are on given the parent ()
-            if(bonny.type == 'item') {
-                return bonny.currentContainer;
+            if(ribbon.type == 'item') {
+                return ribbon.currentContainer;
             }
-            else if(bonny.type == 'container') {
-                return bonny.currentItem;
-            }
-            else {
-                return null;
-            }
-        },
-
-        previousChild: function previousChild(bonny) {
-            if(bonny.type == 'item') {
-                return bonny.currentContainer < 0 ? -1 : bonny.currentContainer -= 1;
-            }
-            else  if(bonny.type == 'container') {
-                return bonny.currentItem < 0 ? -1 : bonny.currentItem -= 1;
+            else if(ribbon.type == 'container') {
+                return ribbon.currentItem;
             }
             else {
                 return null;
             }
         },
 
-        nextChild: function nextChild(bonny) {
-            if(bonny.type == 'item') {
-                return bonny.currentContainer += 1;
+        previousChild: function previousChild(ribbon) {
+            if(ribbon.type == 'item') {
+                return ribbon.currentContainer < 0 ? -1 : ribbon.currentContainer -= 1;
             }
-            else  if(bonny.type == 'container') {
-                return bonny.currentItem += 1;
+            else  if(ribbon.type == 'container') {
+                return ribbon.currentItem < 0 ? -1 : ribbon.currentItem -= 1;
             }
             else {
                 return null;
             }
         },
 
-        getSelector: function getSelector(isBody, bonny) {
+        nextChild: function nextChild(ribbon) {
+            if(ribbon.type == 'item') {
+                return ribbon.currentContainer += 1;
+            }
+            else  if(ribbon.type == 'container') {
+                return ribbon.currentItem += 1;
+            }
+            else {
+                return null;
+            }
+        },
+
+        getSelector: function getSelector(isBody, ribbon) {
             if (isBody) {
-                return 'body[bonny-id="'+bonny.name+'"]';
+                return 'body[ribbon-id="'+ribbon.name+'"]';
             }
 
-            if (bonny.type == "item") {
-                return '.bonny-item[bonny-id="'+bonny.name+'"]'
+            if (ribbon.type == "item") {
+                return '.ribbon-item[ribbon-id="'+ribbon.name+'"]'
             }
 
-            if (bonny.type == "container") {
-                return '.bonny-container[bonny-id="'+bonny.name+'"]'
+            if (ribbon.type == "container") {
+                return '.ribbon-container[ribbon-id="'+ribbon.name+'"]'
             }
 
             return "";
@@ -303,9 +303,9 @@ var BonnyUtils = (function(){
             var self = this;
 
             this.collectMouseScrolls(scroll).then(function(direction){
-                var currentBonny = self.get('root').bonnyItems[self.get('currentBonny')];
-                console.log(currentBonny);
-                BonnyTransitions.trigger(currentBonny, direction, directions);
+                var currentRibbon = self.get('root').ribbonItems[self.get('currentRibbon')];
+                console.log(currentRibbon);
+                RibbonTransitions.trigger(currentRibbon, direction, directions);
             });
         }
     }
@@ -317,8 +317,8 @@ var BonnyUtils = (function(){
             return _globals.walk(name, root);
         },
         collectMouseScrolls: _globals.collectMouseScrolls(),
-        changeBonny: function(direction) {
-            return _globals.changeBonny(direction);    
+        changeRibbon: function(direction) {
+            return _globals.changeRibbon(direction);    
         },
         step: function(root) {
             return _globals.step(root);
@@ -329,8 +329,8 @@ var BonnyUtils = (function(){
         execute: function(scroll, directions) {
             return _globals.execute.call(this, scroll, directions);
         },
-        getSelector: function(isBody, bonny) {
-            return _globals.getSelector(isBody, bonny);
+        getSelector: function(isBody, ribbon) {
+            return _globals.getSelector(isBody, ribbon);
         },
         set: function(prop, value) {
             return _globals.set(prop, value);    
@@ -338,14 +338,14 @@ var BonnyUtils = (function(){
         get: function(prop) {
             return _globals.get(prop);
         },
-        currentChild: function(bonny) {
-            return _globals.currentChild(bonny);
+        currentChild: function(ribbon) {
+            return _globals.currentChild(ribbon);
         },
-        previousChild: function(bonny) {
-            return _globals.previousChild(bonny);
+        previousChild: function(ribbon) {
+            return _globals.previousChild(ribbon);
         },
-        nextChild: function(bonny) {
-            return _globals.nextChild(bonny);
+        nextChild: function(ribbon) {
+            return _globals.nextChild(ribbon);
         }
     }
 })();

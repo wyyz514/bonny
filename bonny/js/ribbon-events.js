@@ -1,0 +1,3 @@
+var RibbonEvents = (function () {
+
+})(); 

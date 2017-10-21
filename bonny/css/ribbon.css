@@ -1,4 +1,4 @@
-.bonny-item {
+.ribbon-item {
     position: absolute;
     top: 0;
     left: 0;
@@ -8,13 +8,13 @@
     background-color: #fff;
 }
 
-.bonny-container {
+.ribbon-container {
     position: absolute;
     height: 100%;
     width: 100%;
 }
 
-.bonny-indicators {
+.ribbon-indicators {
     position: fixed;
     top: 50%;
     left: 85%;
@@ -22,13 +22,13 @@
     z-index: 100;
 }
 
-.bonny-indicator {
+.ribbon-indicator {
     width: 100%;
     height: 1em;
     position: relative;
 }
 
-.bonny-indicator:after
+.ribbon-indicator:after
 {
     content: "";
     height: 3px;
@@ -39,7 +39,7 @@
     transition: all 0.3s 0.5s ease-in-out;
 }
 
-.bonny-indicator#bi-active:after
+.ribbon-indicator#ri-active:after
 {
     transform: scaleX(3);
 }

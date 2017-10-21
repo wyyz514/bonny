@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/css/bonny.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/ribbon.css"/>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Montserrat:900"/>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     </head>
     <body>
-        <div class="bonny-item no-up one">
-            <div class="bonny-container" bonny-animate>
+        <div class="ribbon-item no-up one">
+            <div class="ribbon-container" ribbon-animate>
                 <div class="slide">
                     <div class="slide-title has-animation my-fade-left fade-left animated">Beatiful belgium</div>
                     <div class="slide-blurb has-animation delayed fade-up">
@@ -20,8 +20,8 @@
                 </div>
             </div>
         </div>
-        <div class="bonny-item two">
-            <div class="bonny-container" bonny-animate>
+        <div class="ribbon-item two">
+            <div class="ribbon-container" ribbon-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-up">Natural norway</div>
                     <div class="slide-blurb has-animation delayed fade-left">
@@ -32,8 +32,8 @@
             </div>
             
         </div>
-        <div class="bonny-item three">
-            <div class="bonny-container" bonny-animate>
+        <div class="ribbon-item three">
+            <div class="ribbon-container" ribbon-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-down">Interesting iceland</div>
                     <div class="slide-blurb has-animation delayed fade-right">
@@ -43,8 +43,8 @@
                 </div>
             </div>
         </div>
-        <div class="bonny-item four no-down">
-            <div class="bonny-container" bonny-animate>
+        <div class="ribbon-item four no-down">
+            <div class="ribbon-container" ribbon-animate>
                 <div class="slide">
                     <div class="slide-title has-animation fade-right">Fancy finland</div>
                     <div class="slide-blurb has-animation delayed fade-down">
@@ -55,29 +55,29 @@
                 </div>
             </div>
         </div>
-        <script src="/js/bonny-transitions.js"></script>
-        <script src="/js/bonny-indicators.js"></script>
-        <script src="/js/bonny-utils.js"></script>
-        <script src="/js/bonny.js"></script>
+        <script src="/js/ribbon-transitions.js"></script>
+        <script src="/js/ribbon-indicators.js"></script>
+        <script src="/js/ribbon-utils.js"></script>
+        <script src="/js/ribbon.js"></script>
 
         <script>
-            var root = BonnyUtils.set('root', new BonnyContainer(document.body, null, "1"));
-            var mainBonnys = BonnyUtils.get('root').bonnyItems.slice(0);
-            BonnyIndicators.updateConfig('count', mainBonnys.length);
+            var root = RibbonUtils.set('root', new RibbonContainer(document.body, null, "1"));
+            var mainRibbons = RibbonUtils.get('root').ribbonItems.slice(0);
+            RibbonIndicators.updateConfig('count', mainRibbons.length);
 
-            var steppers = BonnyUtils.step(root);
+            var steppers = RibbonUtils.step(root);
             window.pause = false;
-            BonnyTransitions.register('my-fade-left', function () {
+            RibbonTransitions.register('my-fade-left', function () {
                 this.classList.add('bounceInLeft');
             }, function () {
                 this.classList.remove('bounceInLeft');
             });
             
             document.addEventListener('mousewheel', function(e) {
-               !window.pause && BonnyUtils.execute(e.deltaY, steppers);
+               !window.pause && RibbonUtils.execute(e.deltaY, steppers);
             });
 
-            BonnyIndicators.render();
+            RibbonIndicators.render();
         </script>
     </body>
 </html>

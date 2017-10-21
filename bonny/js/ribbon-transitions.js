@@ -1,4 +1,4 @@
-var BonnyTransitions = (function (){
+var RibbonTransitions = (function (){
 
     var defaultIn = function () {
         this.classList.add('active');
@@ -111,16 +111,16 @@ var BonnyTransitions = (function (){
                 
                 window.pause = true;
                 setTimeout(function(){
-                    BonnyUtils.changeBonny(dir);
+                    RibbonUtils.changeRibbon(dir);
                     window.pause = false;
                 }, 1500)
                 return;
                 
             }
 
-            var el = document.querySelector(BonnyUtils.getSelector(false, node));
+            var el = document.querySelector(RibbonUtils.getSelector(false, node));
 
-            var hasAnimation = el.hasAttribute('bonny-animate');
+            var hasAnimation = el.hasAttribute('ribbon-animate');
 
 
             if (hasAnimation) {
